@@ -39,7 +39,7 @@ class Transaction extends EventBean implements \JsonSerializable
     ];
 
     /**
-     * The spams for the transaction
+     * The spans for the transaction
      *
      * @var array
      */
