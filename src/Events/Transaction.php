@@ -140,12 +140,28 @@ class Transaction extends EventBean implements \JsonSerializable
         return $this->spans;
     }
 
-    public function startSpan(string $name): Span
+
+    /**
+     * start a span for the transaction
+     *
+     * @return void
+     */
+    public function startSpan(string $name)
     {
-        $tempspan = new Span($name);
-        $this->spans[] = $tempspan;
-        return $tempspan;
+        $this->spans[$name] = new Span($name);
+        $this->spans[$name]->start();
     }
+
+    /**
+     * stop a span for the transaction
+     *
+     * @return void
+     */
+    public function stopSpan(string $name)
+    {
+        $this->spans[$name]->stop();
+    }
+
 
     /**
     * Serialize Transaction Event
