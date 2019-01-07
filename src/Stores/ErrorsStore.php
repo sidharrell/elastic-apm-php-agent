@@ -6,7 +6,7 @@ use PhilKra\Events\Error;
 
 /**
  *
- * Registry for captured the Errors/Excpetions
+ * Registry for capturing the Errors/Exceptions
  *
  */
 class ErrorsStore extends Store

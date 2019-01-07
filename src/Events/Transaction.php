@@ -3,6 +3,7 @@
 namespace PhilKra\Events;
 
 use PhilKra\Helper\Timer;
+use PhilKra\Exception\Span\UnknownSpanException;
 
 /**
  *
@@ -37,6 +38,25 @@ class Transaction extends EventBean implements \JsonSerializable
         'backtrace' => null,
         'headers'   => []
     ];
+
+    /**
+     * @var EventFactoryInterface
+     */
+    private $eventFactory;
+
+    /**
+     * Spans Store
+     *
+     * @var \PhilKra\Stores\SpansStore
+     */
+    private $spansStore;
+
+    /**
+     * Common/Shared Contexts for Spans
+     *
+     * @var array
+     */
+    private $sharedContext = [];
 
     /**
      * The spans for the transaction
@@ -119,7 +139,7 @@ class Transaction extends EventBean implements \JsonSerializable
     }
 
     /**
-     * Set the spans for the transacton
+     * Set the spans for the transaction
      *
      * @param array $spans
      *
@@ -144,22 +164,55 @@ class Transaction extends EventBean implements \JsonSerializable
     /**
      * start a span for the transaction
      *
-     * @return void
+     * @return Span
      */
-    public function startSpan(string $name)
+    public function startSpan(string $name, array $context = []): Span
     {
-        $this->spans[$name] = new Span($name);
-        $this->spans[$name]->start();
+        // Create and Store Span
+        $this->spansStore->register(
+            $this->eventFactory->createSpan($name, array_replace_recursive($this->sharedContext, $context))
+        );
+
+        // Start the Transaction
+        $span = $this->spansStore->fetch($name);
+        $span->start();
+
+        return $span;
     }
 
     /**
-     * stop a span for the transaction
+     * Stop the Span
+     *
+     * @throws \PhilKra\Exception\Span\UnknownSpanException
+     *
+     * @param string $name
+     * @param array $meta, Def: []
      *
      * @return void
      */
-    public function stopSpan(string $name)
+    public function stopSpan(string $name, array $meta = [])
     {
-        $this->spans[$name]->stop();
+        $this->getSpan($name)->stop();
+        $this->getSpan($name)->setMeta($meta);
+    }
+
+    /**
+     * Get a Transaction
+     *
+     * @throws \PhilKra\Exception\Span\UnknownSpanException
+     *
+     * @param string $name
+     *
+     * @return Span
+     */
+    public function getSpan(string $name)
+    {
+        $span = $this->spansStore->fetch($name);
+        if ($span === null) {
+            throw new UnknownSpanException($name);
+        }
+
+        return $span;
     }
 
 

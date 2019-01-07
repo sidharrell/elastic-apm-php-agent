@@ -7,8 +7,8 @@ namespace PhilKra\Exception;
  */
 class MissingAppNameException extends \Exception
 {
-    public function __construct(string $message = '', int $code = 0, Throwable $previous = null)
+    public function __construct(string $message = null, int $code = null, Throwable $previous = null)
     {
-        parent::__construct(sprintf('No app name registered in agent config.', $message), $code, $previous);
+        parent::__construct(sprintf('No app name registered in agent config. %s', $message), $code, $previous);
     }
 }

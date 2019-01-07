@@ -7,11 +7,9 @@ use PhilKra\Events\EventFactoryInterface;
 use PhilKra\Stores\ErrorsStore;
 use PhilKra\Stores\TransactionsStore;
 use PhilKra\Events\Transaction;
-use PhilKra\Events\Error;
 use PhilKra\Helper\Timer;
 use PhilKra\Helper\Config;
 use PhilKra\Middleware\Connector;
-use PhilKra\Exception\Transaction\DuplicateTransactionNameException;
 use PhilKra\Exception\Transaction\UnknownTransactionException;
 
 /**
@@ -166,7 +164,7 @@ class Agent
      *
      * @param string $name
      *
-     * @return void
+     * @return Transaction
      */
     public function getTransaction(string $name)
     {
@@ -200,7 +198,7 @@ class Agent
      *
      * @return \PhilKra\Helper\Config
      */
-    public function getConfig() : \PhilKra\Helper\Config
+    public function getConfig() : Config
     {
         return $this->config;
     }

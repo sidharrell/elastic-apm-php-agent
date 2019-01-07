@@ -2,11 +2,9 @@
 
 namespace PhilKra\Events;
 
-use Ramsey\Uuid\Uuid;
-
 /**
  *
- * EventBean for occuring events such as Excpetions or Transactions
+ * EventBean for occurring events such as Exceptions or Transactions
  *
  */
 class EventBean

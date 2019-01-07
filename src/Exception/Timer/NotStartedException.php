@@ -6,8 +6,8 @@ namespace PhilKra\Exception\Timer;
  */
 class NotStartedException extends \Exception {
 
-  public function __construct( string $message = '', int $code = 0, Throwable $previous = NULL ) {
-    parent::__construct( 'Can\'t stop a timer which isn\'t started.', $code, $previous );
+  public function __construct( string $message = null, int $code = 0, Throwable $previous = NULL ) {
+    parent::__construct( sprintf('Can\'t stop a timer which isn\'t started. %s', $message), $code, $previous );
   }
 
 }

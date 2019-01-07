@@ -2,8 +2,6 @@
 
 namespace PhilKra\Stores;
 
-use PhilKra\Events\EventBean;
-
 /**
  *
  * Registry for captured the Events

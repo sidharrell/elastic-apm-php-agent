@@ -5,8 +5,6 @@ namespace PhilKra\Middleware;
 use PhilKra\Agent;
 use PhilKra\Stores\ErrorsStore;
 use PhilKra\Stores\TransactionsStore;
-use PhilKra\Serializers\Errors;
-use PhilKra\Serializers\Transactions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client;
 
@@ -107,7 +105,7 @@ class Connector
         // Default Headers Set
         $headers = [
             'Content-Type' => 'application/json',
-            'User-Agent'   => sprintf('elasticapm-php/%s', Agent::VERSION),
+            'User-Agent'   => sprintf('elastic-apm-php/%s', Agent::VERSION),
         ];
 
         // Add Secret Token to Header

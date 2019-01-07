@@ -21,4 +21,12 @@ interface EventFactoryInterface
      * @param array  $contexts
      */
     public function createTransaction(string $name, array $contexts): Transaction;
+
+    /**
+     * Creates a new span
+     *
+     * @param string $name
+     * @param array  $contexts
+     */
+    public function createSpan(string $name, array $contexts): Span;
 }

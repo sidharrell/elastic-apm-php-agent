@@ -19,4 +19,12 @@ final class DefaultEventFactory implements EventFactoryInterface
     {
         return new Transaction($name, $contexts);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createSpan(string $name, array $contexts): Span
+    {
+        return new Span($name, $contexts);
+    }
 }
