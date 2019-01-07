@@ -2,6 +2,8 @@
 
 namespace PhilKra\Events;
 
+use Ramsey\Uuid\Uuid;
+
 /**
  *
  * EventBean for occurring events such as Exceptions or Transactions
@@ -60,7 +62,10 @@ class EventBean
     public function __construct(array $contexts)
     {
         // Generate Random UUID
-        $this->id = Uuid::uuid4()->toString();
+        try {
+            $this->id = Uuid::uuid4()->toString();
+        } catch (\Exception $e) {
+        }
 
         // Merge Initial Context
         $this->contexts = array_merge($this->contexts, $contexts);

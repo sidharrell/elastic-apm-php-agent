@@ -79,9 +79,14 @@ class Timer
             throw new NotStartedException();
         }
 
-        return ($this->stoppedOn === null) ?
-            $this->toMicro(microtime(true) - $this->startedOn) :
-            $this->getDuration();
+        $return_value = 0;
+        try {
+            $return_value = ($this->stoppedOn === null) ?
+                $this->toMicro(microtime(true) - $this->startedOn) :
+                $this->getDuration();
+        } catch (NotStoppedException $e) {
+        }
+        return $return_value;
     }
 
     /**

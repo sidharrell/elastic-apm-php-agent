@@ -2,6 +2,8 @@
 
 namespace PhilKra\Exception;
 
+use Throwable;
+
 /**
  * Application Tear Up has missing App Name in Config
  */

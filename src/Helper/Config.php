@@ -20,6 +20,7 @@ class Config
 
     /**
      * @param array $config
+     * @throws MissingAppNameException
      */
     public function __construct(array $config)
     {

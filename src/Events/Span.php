@@ -2,6 +2,8 @@
 
 namespace PhilKra\Events;
 
+use PhilKra\Exception\Timer\NotStartedException;
+use PhilKra\Exception\Timer\NotStoppedException;
 use PhilKra\Helper\Timer;
 
 /**
@@ -101,10 +103,16 @@ class Span extends EventBean implements \JsonSerializable
     public function stop(int $duration = null)
     {
         // Stop the Timer
-        $this->timer->stop();
+        try {
+            $this->timer->stop();
+        } catch (NotStartedException $e) {
+        }
 
         // Store Summary
-        $this->duration = $duration ?? round($this->timer->getDuration(), 3);
+        try {
+            $this->duration = $duration ?? round($this->timer->getDuration(), 3);
+        } catch (NotStoppedException $e) {
+        }
     }
 
 

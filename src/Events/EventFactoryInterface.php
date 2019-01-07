@@ -18,7 +18,8 @@ interface EventFactoryInterface
      * Creates a new transaction
      *
      * @param string $name
-     * @param array  $contexts
+     * @param array $contexts
+     * @return Transaction
      */
     public function createTransaction(string $name, array $contexts): Transaction;
 
@@ -26,7 +27,8 @@ interface EventFactoryInterface
      * Creates a new span
      *
      * @param string $name
-     * @param array  $contexts
+     * @param array $contexts
+     * @return Span
      */
     public function createSpan(string $name, array $contexts): Span;
 }

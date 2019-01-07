@@ -2,6 +2,8 @@
 
 namespace PhilKra\Exception\Timer;
 
+use Throwable;
+
 /**
  * Trying to get the Duration of a running Timer
  */

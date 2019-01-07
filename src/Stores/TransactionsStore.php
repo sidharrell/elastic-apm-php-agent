@@ -37,7 +37,7 @@ class TransactionsStore extends Store
     /**
      * Fetch a Transaction from the Store
      *
-     * @param final string $name
+     * @param string $name
      *
      * @return mixed: \PhilKra\Events\Transaction | null
      */

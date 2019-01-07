@@ -91,7 +91,10 @@ class Agent
     public function __construct(array $config, array $sharedContext = [], EventFactoryInterface $eventFactory = null)
     {
         // Init Agent Config
-        $this->config = new Config($config);
+        try {
+            $this->config = new Config($config);
+        } catch (Exception\MissingAppNameException $e) {
+        }
 
         // Use the custom event factory or create a default one
         $this->eventFactory = $eventFactory ?? new DefaultEventFactory();

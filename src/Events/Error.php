@@ -2,6 +2,8 @@
 
 namespace PhilKra\Events;
 
+use Throwable;
+
 /**
  *
  * Event Bean for Error wrapping

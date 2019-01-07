@@ -2,6 +2,8 @@
 
 namespace PhilKra\Exception\Span;
 
+use Throwable;
+
 /**
  * Trying to fetch an unregistered Transaction
  */

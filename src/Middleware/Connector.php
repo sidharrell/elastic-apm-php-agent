@@ -2,6 +2,7 @@
 
 namespace PhilKra\Middleware;
 
+use GuzzleHttp\Exception\GuzzleException;
 use PhilKra\Agent;
 use PhilKra\Stores\ErrorsStore;
 use PhilKra\Stores\TransactionsStore;
@@ -51,11 +52,16 @@ class Connector
             'POST',
             $this->getEndpoint('transactions'),
             $this->getRequestHeaders(),
-            json_encode(new Transactions($this->config, $store))
+            json_encode($store)
         );
 
-        $response = $this->client->send($request);
-        return ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300);
+        $return_value = '';
+        try {
+            $response = $this->client->send($request);
+            $return_value = ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300);
+        } catch (GuzzleException $e) {
+        }
+        return $return_value;
     }
 
     /**
@@ -71,11 +77,16 @@ class Connector
             'POST',
             $this->getEndpoint('errors'),
             $this->getRequestHeaders(),
-            json_encode(new Errors($this->config, $store))
+            json_encode($store)
         );
 
-        $response = $this->client->send($request);
-        return ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300);
+        $return_value = '';
+        try {
+            $response = $this->client->send($request);
+            $return_value = ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300);
+        } catch (GuzzleException $e) {
+        }
+        return $return_value;
     }
 
     /**

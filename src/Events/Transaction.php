@@ -2,6 +2,9 @@
 
 namespace PhilKra\Events;
 
+use PhilKra\Exception\Span\DuplicateSpanNameException;
+use PhilKra\Exception\Timer\NotStartedException;
+use PhilKra\Exception\Timer\NotStoppedException;
 use PhilKra\Helper\Timer;
 use PhilKra\Exception\Span\UnknownSpanException;
 
@@ -98,10 +101,16 @@ class Transaction extends EventBean implements \JsonSerializable
     public function stop(int $duration = null)
     {
         // Stop the Timer
-        $this->timer->stop();
+        try {
+            $this->timer->stop();
+        } catch (NotStartedException $e) {
+        }
 
         // Store Summary
-        $this->summary['duration']  = $duration ?? round($this->timer->getDuration(), 3);
+        try {
+            $this->summary['duration'] = $duration ?? round($this->timer->getDuration(), 3);
+        } catch (NotStoppedException $e) {
+        }
         $this->summary['headers']   = (function_exists('xdebug_get_headers') === true) ? xdebug_get_headers() : [];
         $this->summary['backtrace'] = debug_backtrace();
     }
@@ -164,14 +173,19 @@ class Transaction extends EventBean implements \JsonSerializable
     /**
      * start a span for the transaction
      *
+     * @param string $name
+     * @param array $context
      * @return Span
      */
     public function startSpan(string $name, array $context = []): Span
     {
         // Create and Store Span
-        $this->spansStore->register(
-            $this->eventFactory->createSpan($name, array_replace_recursive($this->sharedContext, $context))
-        );
+        try {
+            $this->spansStore->register(
+                $this->eventFactory->createSpan($name, array_replace_recursive($this->sharedContext, $context))
+            );
+        } catch (DuplicateSpanNameException $e) {
+        }
 
         // Start the Transaction
         $span = $this->spansStore->fetch($name);

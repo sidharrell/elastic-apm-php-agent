@@ -1,6 +1,8 @@
 <?php
 namespace PhilKra\Exception\Timer;
 
+use Throwable;
+
 /**
  * Trying to stop a Timer that has not been started
  */
